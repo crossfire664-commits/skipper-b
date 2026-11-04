@@ -28,7 +28,8 @@
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
-  padding-block:0 calc(88px + env(safe-area-inset-bottom,0px))}
+  padding-block:0 calc(130px + env(safe-area-inset-bottom,0px))}
+html{scroll-padding-bottom:calc(120px + env(safe-area-inset-bottom,0px))}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 .wrap{max-width:720px;margin:0 auto}
 header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:14px 10px;border-bottom:2px solid var(--ink)}
@@ -96,12 +97,27 @@ tr:last-child td{border-bottom:0}
 .stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
 .stat{flex:1;min-width:120px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
 .stat b{font-family:var(--display);font-size:30px;display:block;line-height:1}
+/* Test & Auswertung */
+.mdesc{font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0 4px}
+.opt.picked{border-color:var(--ink);background:var(--soft)}
+.peek{display:block;width:100%;margin:2px 0 12px;padding:11px;border-radius:10px;border:1.5px dashed var(--line);background:transparent;color:var(--muted);font:600 15px var(--body);cursor:pointer}
+.fb.ok{border-left:5px solid var(--stbd)}.fb.no{border-left:5px solid var(--port)}.fb.peek{border-left:5px solid var(--signal)}
+.why{margin-top:8px;font-size:15px;line-height:1.45}.why span{font-weight:800}
+.hist{display:grid;gap:6px;margin:6px 0 10px}.hrow{display:grid;grid-template-columns:1.4fr 1fr .7fr .7fr;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px}
+.rev{display:grid;gap:8px;margin:8px 0 20px}
+.ri{background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}
+.ri.no{border-color:var(--port)}.ri.peek{border-color:var(--signal)}
+.ri summary{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-weight:600;list-style:none}
+.ri summary::-webkit-details-marker{display:none}
+.st{flex:0 0 26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800}
+.st.ok{background:var(--stbd);color:#fff}.st.no{background:var(--port);color:#fff}.st.peek{background:var(--soft)}
+.rb{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:15px;display:grid;gap:4px}
 /* Bottom-Nav */
 nav.bot{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--ink);display:flex;justify-content:center;
   padding:8px max(16px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 nav.bot .in{display:flex;gap:6px;max-width:720px;width:100%}
-nav.bot button{flex:1;border:0;background:transparent;color:var(--bg);opacity:.65;font:700 15px var(--body);padding:10px 4px;border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
-nav.bot button svg{width:22px;height:22px}
+nav.bot button{flex:1;border:0;background:transparent;color:var(--bg);opacity:.65;font:700 14px var(--body);padding:7px 4px;border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav.bot button svg{width:20px;height:20px}
 nav.bot button[aria-current="page"]{opacity:1;background:color-mix(in srgb,var(--bg) 14%,transparent)}
 .term{all:unset;cursor:help;border-bottom:2px dotted var(--accent);color:inherit}
 .term:focus-visible{outline:3px solid var(--signal)}
@@ -125,7 +141,7 @@ nav.bot button[aria-current="page"]{opacity:1;background:color-mix(in srgb,var(-
 <nav class="bot" aria-label="Bereiche"><div class="in">
   <button data-tab="lernen" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h7a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4zM20 5h-5a2 2 0 0 0-2 2v12a2 2 0 0 1 2-2h5z"/></svg>Lernen</button>
   <button data-tab="karten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v10"/></svg>Karten</button>
-  <button data-tab="quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg>Quiz</button>
+  <button data-tab="quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg>Quiz &amp; Test</button>
 </div></nav>
 
 <script>
@@ -302,58 +318,96 @@ function renderCard(){
   $("#knew").onclick = () => next(true);
 }
 
-/* ---------- QUIZ ---------- */
-let qz = [], qi = 0, qright = 0, qwrong = [];
+/* ---------- QUIZ & TEST ---------- */
+let qz = [], qi = 0, qmode = "learn", qres = [];
+const why = q => q.e ? q.e : "Merke dir die Antwort als ganzen Satz: „" + q.a + "“.";
 function renderQuizStart(){
-  $("#hdrInfo").textContent = "Quiz";
+  $("#hdrInfo").textContent = "Quiz & Test";
   const miss = store.get("miss", []);
-  view.innerHTML = `<h2>Quiz</h2>
-    <p>Multiple Choice mit Erklärung. In der echten Prüfung musst du frei antworten, also erst im Kopf antworten und dann tippen.</p>
+  const hist = store.get("hist", []);
+  view.innerHTML = `<h2>Quiz &amp; Test</h2>
+    <span class="lbl">Modus</span>
+    <div class="chips" id="mp"><button data-m="learn" aria-pressed="true">📘 Lernen</button><button data-m="test" aria-pressed="false">📝 Test</button></div>
+    <p id="mdesc" class="mdesc"></p>
     <span class="lbl">Thema</span>${catPicker("qp")}
     <span class="lbl">Anzahl</span>
-    <div class="chips" id="np"><button data-n="10" aria-pressed="true">10</button><button data-n="20" aria-pressed="false">20</button><button data-n="999" aria-pressed="false">Alle</button></div>
-    <div class="row" style="margin-top:14px"><button class="btn" id="qs">Quiz starten</button></div>
+    <div class="chips" id="np"><button data-n="10" aria-pressed="true">10</button><button data-n="20" aria-pressed="false">20</button><button data-n="30" aria-pressed="false">30</button><button data-n="999" aria-pressed="false">Alle</button></div>
+    <div class="row" style="margin-top:14px"><button class="btn" id="qs">Starten</button></div>
     ${miss.length ? `<div class="row" style="margin-top:10px"><button class="btn ghost" id="qm">Meine Fehler wiederholen (${miss.length})</button></div>` : ""}
-    <div class="stats" style="margin-top:18px"><div class="stat"><b>${store.get("best",0)}%</b><span class="lbl">Bestes Ergebnis</span></div><div class="stat"><b>${store.get("runs",0)}</b><span class="lbl">Durchgänge</span></div></div>`;
+    <div class="stats" style="margin-top:18px"><div class="stat"><b>${store.get("best",0)}%</b><span class="lbl">Bestes Ergebnis</span></div><div class="stat"><b>${store.get("runs",0)}</b><span class="lbl">Durchgänge</span></div></div>
+    ${hist.length ? `<span class="lbl">Deine letzten Tests</span><div class="hist">${hist.slice(-8).reverse().map(h=>`<div class="hrow"><span>${h.d}</span><span>${h.n} Fragen</span><b style="color:${h.p>=70?'var(--stbd)':'var(--port)'}">${h.p}%</b>${h.l?`<span title="nachgesehen">👀 ${h.l}</span>`:"<span></span>"}</div>`).join("")}</div>` : ""}`;
   const getCat = bindPicker("qp");
   let n = 10;
+  const desc = () => $("#mdesc").innerHTML = qmode === "learn"
+    ? "<b>Lernen:</b> Nach jeder Antwort siehst du sofort, ob sie stimmt, und <b>💡 warum</b>."
+    : "<b>Test:</b> Wie in der Prüfung – keine Hilfe zwischendurch, Auswertung erst am Ende. Wenn du nicht weiterweißt, kannst du <b>👀 Lösung ansehen</b>. Das zählt dann nicht als richtig und wird im Ergebnis markiert.";
+  view.querySelectorAll("#mp button").forEach(b => { b.setAttribute("aria-pressed", b.dataset.m===qmode); b.onclick = () => { qmode = b.dataset.m; view.querySelectorAll("#mp button").forEach(x => x.setAttribute("aria-pressed", x===b)); desc(); }; });
+  desc();
   view.querySelectorAll("#np button").forEach(b => b.onclick = () => { n = +b.dataset.n; view.querySelectorAll("#np button").forEach(x => x.setAttribute("aria-pressed", x===b)); });
   $("#qs").onclick = () => startQuiz(shuffle(DATA.q.filter(q => q.w.length >= 3 && (!getCat() || q.c === getCat()))).slice(0, n));
   $("#qm") && ($("#qm").onclick = () => startQuiz(shuffle(DATA.q.filter(q => miss.includes(q.id)))));
 }
-function startQuiz(list){ if(!list.length){ view.innerHTML = `<h2>Quiz</h2><p>Zu diesem Thema gibt es keine Auswahl-Fragen. Die mündlichen Prüfungsfragen übst du unter <b>Karten → Prüfer-Modus</b>.</p><button class="btn" id="bk">Zurück</button>`; $("#bk").onclick=renderQuizStart; return; } qz = list; qi = 0; qright = 0; qwrong = []; renderQ(); }
+function startQuiz(list){ if(!list.length){ view.innerHTML = `<h2>Quiz</h2><p>Zu diesem Thema gibt es keine Auswahl-Fragen. Die mündlichen Prüfungsfragen übst du unter <b>Karten → Prüfer-Modus</b>.</p><button class="btn" id="bk">Zurück</button>`; $("#bk").onclick=renderQuizStart; return; } qz = list; qi = 0; qres = []; renderQ(); }
 function renderQ(){
   const q = qz[qi];
   const opts = shuffle([q.a, ...q.w]);
-  view.innerHTML = `<p class="lbl" style="margin-top:16px">${esc(q.c)} · Frage ${qi+1} / ${qz.length} · ${qright} richtig</p>
+  const done = qres.filter(r=>r.s==="ok").length;
+  view.innerHTML = `<p class="lbl" style="margin-top:16px">${qmode==="test"?"📝 Test":"📘 Lernen"} · ${esc(q.c)} · Frage ${qi+1} / ${qz.length}${qmode==="learn"?` · ${done} richtig`:""}</p>
     <div class="bar"><i style="width:${qi/qz.length*100}%"></i></div>
     ${q.p?pic(q.p):""}<p class="qtext">${esc(q.q)}</p>
     <div class="opts">${opts.map((o,i)=>`<button class="opt" data-o="${i}">${esc(o)}</button>`).join("")}</div>
+    <button class="peek" id="peek">👀 Lösung ansehen</button>
     <div id="after"></div>`;
-  view.querySelectorAll(".opt").forEach(b => b.onclick = () => {
-    if (view.querySelector(".opt.right")) return;
-    const ok = opts[+b.dataset.o] === q.a;
-    view.querySelectorAll(".opt").forEach(x => { if (opts[+x.dataset.o] === q.a) x.classList.add("right"); x.disabled = true; });
-    if (!ok) { b.classList.add("wrong"); qwrong.push(q.id); } else qright++;
-    const miss = new Set(store.get("miss", [])); ok ? miss.delete(q.id) : miss.add(q.id); store.set("miss", [...miss]);
-    $("#after").innerHTML = `<div class="fb"><b>${ok ? "Richtig." : "Falsch. Richtig ist: " + esc(q.a)}</b>${q.e ? "<br>" + esc(q.e) : ""}</div>
-      <button class="btn" id="nx" style="width:100%">${qi < qz.length-1 ? "Nächste Frage →" : "Ergebnis anzeigen"}</button>`;
+  let answered = false;
+  const finish = (status, pickedText) => {
+    answered = true;
+    qres.push({id:q.id, s:status, pick:pickedText});
+    const miss = new Set(store.get("miss", [])); status==="ok" ? miss.delete(q.id) : miss.add(q.id); store.set("miss", [...miss]);
+    $("#peek").remove();
+    const showFb = qmode === "learn" || status === "peek";
+    const head = status==="ok" ? "✔ Richtig." : status==="peek" ? "👀 Nachgesehen – richtig ist: " + esc(q.a) : "✘ Falsch. Richtig ist: " + esc(q.a);
+    $("#after").innerHTML = (showFb ? `<div class="fb ${status}"><b>${head}</b><div class="why"><span>💡 Warum?</span> ${esc(why(q))}</div></div>` : `<div class="fb">Antwort gespeichert. Die Auswertung kommt am Ende.</div>`) +
+      `<button class="btn" id="nx" style="width:100%">${qi < qz.length-1 ? "Nächste Frage →" : "Auswertung anzeigen"}</button>`;
     $("#nx").onclick = () => { qi++; qi < qz.length ? renderQ() : renderResult(); };
-    $("#nx").scrollIntoView({block:"nearest", behavior:"smooth"});
+    $("#nx").scrollIntoView({block:"center", behavior:"smooth"});
+  };
+  view.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    if (answered) return;
+    const pickedText = opts[+b.dataset.o], ok = pickedText === q.a;
+    view.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (qmode==="learn" && opts[+x.dataset.o] === q.a) x.classList.add("right"); });
+    if (qmode==="learn") { if (!ok) b.classList.add("wrong"); } else b.classList.add("picked");
+    finish(ok ? "ok" : "no", pickedText);
   });
+  $("#peek").onclick = () => {
+    if (answered) return;
+    view.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (opts[+x.dataset.o] === q.a) x.classList.add("right"); });
+    finish("peek", "");
+  };
 }
 function renderResult(){
-  const pct = Math.round(qright / qz.length * 100);
+  const n = qz.length, ok = qres.filter(r=>r.s==="ok").length, no = qres.filter(r=>r.s==="no").length, pk = qres.filter(r=>r.s==="peek").length;
+  const pct = Math.round(ok / n * 100);
   store.set("runs", store.get("runs",0) + 1);
   if (pct > store.get("best",0)) store.set("best", pct);
-  const verdict = pct >= 90 ? "Prüfungsreif in diesem Bereich." : pct >= 70 ? "Gut. Die Fehler noch einmal anschauen." : "Noch üben: Kapitel lesen, dann nochmal.";
-  view.innerHTML = `<p class="lbl" style="margin-top:20px">Ergebnis</p>
+  const d = new Date(); const hist = store.get("hist", []);
+  hist.push({d: d.toLocaleDateString("de-AT",{day:"2-digit",month:"2-digit"})+" "+d.toLocaleTimeString("de-AT",{hour:"2-digit",minute:"2-digit"}), n, p:pct, l:pk, m:qmode}); store.set("hist", hist.slice(-30));
+  const verdict = pct >= 90 ? "Prüfungsreif in diesem Bereich. 🎉" : pct >= 70 ? "Gut. Die markierten Fragen noch einmal anschauen." : "Noch üben: Kapitel lesen, dann die Fehler als Lernkarten wiederholen.";
+  const icon = s => s==="ok" ? `<span class="st ok">✔</span>` : s==="peek" ? `<span class="st peek">👀</span>` : `<span class="st no">✘</span>`;
+  const weak = qres.filter(r=>r.s!=="ok").map(r=>DATA.q[r.id]);
+  view.innerHTML = `<p class="lbl" style="margin-top:20px">Auswertung · ${qmode==="test"?"Test":"Lernen"}</p>
     <div class="score" style="color:${pct>=70?'var(--stbd)':'var(--port)'}">${pct}%</div>
-    <p><b>${qright} von ${qz.length}</b> richtig. ${verdict}</p>
-    ${qwrong.length ? `<h3>Falsch beantwortet</h3><div class="tw"><table><tr><th>Frage</th><th>Richtig</th></tr>${qwrong.map(id=>{const q=DATA.q[id];return `<tr><td>${esc(q.q)}</td><td><b>${esc(q.a)}</b></td></tr>`}).join("")}</table></div>` : ""}
-    <div class="row" style="margin-top:16px"><button class="btn ghost" id="b1">Neues Quiz</button>${qwrong.length?`<button class="btn" id="b2">Fehler wiederholen</button>`:""}</div>`;
+    <p><b>${ok} von ${n}</b> selbst richtig beantwortet. ${verdict}</p>
+    <div class="stats"><div class="stat"><b style="color:var(--stbd)">${ok}</b><span class="lbl">✔ Richtig</span></div><div class="stat"><b style="color:var(--port)">${no}</b><span class="lbl">✘ Falsch</span></div><div class="stat"><b>${pk}</b><span class="lbl">👀 Nachgesehen</span></div></div>
+    <div class="row" style="margin-top:6px">${weak.length?`<button class="btn" id="b3">🗂 Falsche + nachgesehene als Lernkarten</button>`:""}</div>
+    <div class="row" style="margin-top:10px"><button class="btn ghost" id="b1">Neuer Durchgang</button>${weak.length?`<button class="btn ghost" id="b2">Diese nochmal als Test</button>`:""}</div>
+    <h3>Alle Fragen im Überblick</h3>
+    <p class="lbl">Antippen für die Erklärung</p>
+    <div class="rev">${qres.map(r=>{const q=DATA.q[r.id];return `<details class="ri ${r.s}"><summary>${icon(r.s)}<span>${esc(q.q)}</span></summary>
+      <div class="rb">${r.s==="no"?`<div>Deine Antwort: <s>${esc(r.pick)}</s></div>`:""}${r.s==="peek"?`<div><i>Du hast hier die Lösung angesehen.</i></div>`:""}<div>Richtig: <b>${esc(q.a)}</b></div><div class="why"><span>💡 Warum?</span> ${esc(why(q))}</div></div></details>`}).join("")}</div>`;
   $("#b1").onclick = renderQuizStart;
-  $("#b2") && ($("#b2").onclick = () => startQuiz(shuffle(qwrong.map(id => DATA.q[id]))));
+  $("#b2") && ($("#b2").onclick = () => startQuiz(shuffle(weak.slice())));
+  $("#b3") && ($("#b3").onclick = () => { go("karten"); deck = shuffle(weak.slice()); di = 0; renderCard(); });
+  window.scrollTo({top:0});
 }
 
 /* ---------- Fachbegriffe antippbar ---------- */
