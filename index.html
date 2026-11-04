@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}.upd{position:relative;background:#fff6d6;border:1px solid #f0d27a;color:#3a2c00;border-radius:14px;padding:12px 40px 10px 14px;margin:12px 0;font-size:.93em}.upd ul{margin:6px 0 0;padding-left:18px}.upd li{margin:2px 0}.upd .x{position:absolute;top:6px;right:8px;border:0;background:none;font-size:22px;color:#7a6400;cursor:pointer}.printcard{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#0d2a3f,#1f5fbf);border-radius:16px;padding:14px 16px;margin:12px 0 16px;box-shadow:0 4px 14px rgba(13,42,63,.25)}.printcard,.printcard *{color:#fff!important;text-decoration:none!important}.printcard .pi{font-size:30px}.printcard b{display:block;font-size:1.08em}.printcard small{display:block;opacity:.85;line-height:1.35;margin-top:2px}.printcard .pa{margin-left:auto;font-size:28px;opacity:.8}.ip{display:inline-block;vertical-align:top;margin:4px 6px 0 0}.ip svg{width:110px!important;max-width:110px!important;margin:0!important;border-radius:8px!important}
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}.upd{position:relative;background:#fff6d6;border:1px solid #f0d27a;color:#3a2c00;border-radius:14px;padding:12px 40px 10px 14px;margin:12px 0;font-size:.93em}.upd ul{margin:6px 0 0;padding-left:18px}.upd li{margin:2px 0}.upd .x{position:absolute;top:6px;right:8px;border:0;background:none;font-size:22px;color:#7a6400;cursor:pointer}.printcard{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#0d2a3f,#1f5fbf);border-radius:16px;padding:14px 16px;margin:12px 0 16px;box-shadow:0 4px 14px rgba(13,42,63,.25)}.printcard,.printcard *{color:#fff!important;text-decoration:none!important}.pdfo{display:grid;gap:8px}.pdfo .btn{display:block;text-align:center;text-decoration:none;width:100%}.printcard .pi{font-size:30px}.printcard b{display:block;font-size:1.08em}.printcard small{display:block;opacity:.85;line-height:1.35;margin-top:2px}.printcard .pa{margin-left:auto;font-size:28px;opacity:.8}.ip{display:inline-block;vertical-align:top;margin:4px 6px 0 0}.ip svg{width:110px!important;max-width:110px!important;margin:0!important;border-radius:8px!important}
 </style>
 </head><body>
 <title>Skipper B – Küstenpatent Kroatien</title>
@@ -188,7 +188,7 @@ function renderToc(){
     <h2>Die 30 %, die du zum Bestehen brauchst</h2>
     <p>Mündliche Prüfung vor 3 Prüfern, ca. 20 Minuten, plus Seekarte und Knoten. Lies ein Kapitel, dann trainier mit <b>Karten</b> und <b>Quiz</b>.</p>
     ${store.get("upd","")!=="2026-11-04"?`<div class="upd" id="upd"><button class="x" id="updx" aria-label="Schließen">×</button><b>🆕 Überarbeitet am 4. November</b><ul><li>Kursblatt-Fragen jetzt <b>mit Bildern</b> (Lichter, Bälle, Tonnen, Schallsignale, Seekarte)</li><li><b>Test-Modus</b> mit Auswertung, 👀 Lösung ansehen und 💡 Warum</li><li>Neues Kapitel <b>17 Verstehen statt auswendig</b> mit Videos</li><li><b>Druckblätter</b> als PDF (gleich hier unten)</li></ul></div>`:""}
-    <a class="printcard" href="Skipper-B-Druckblaetter.pdf" target="_blank" rel="noopener"><span class="pi">🖨</span><span><b>Druckblätter (PDF)</b><small>Lichter · Bälle · Flaggen · Schallsignale · Funk · Recht · Knoten · Ablauf · Seekarte – zum Ausdrucken oder Teilen</small></span><span class="pa">›</span></a>
+    <a class="printcard" id="pcard" href="Skipper-B-Druckblaetter.pdf"><span class="pi">🖨</span><span><b>Druckblätter (PDF)</b><small>Lichter · Bälle · Flaggen · Schallsignale · Funk · Recht · Knoten · Ablauf · Seekarte – zum Ausdrucken oder Teilen</small></span><span class="pa">›</span></a>
     <p><b>Totaler Anfänger?</b> Starte mit „00a Bootssprache“. In den Kapiteln kannst du <span style="border-bottom:2px dotted var(--accent)">gepunktet unterstrichene Wörter</span> antippen, dann kommt die Erklärung.</p>
     <div class="stats">
       <div class="stat"><b>${DATA.q.length}</b><span class="lbl">Fragen</span></div>
@@ -198,6 +198,7 @@ function renderToc(){
     <div class="bar"><i style="width:${Math.round(k/DATA.q.length*100)}%"></i></div>
     <div class="toc">${DATA.ch.map((c,i) => `<button data-i="${i}"><span class="no">${c.n}</span>${esc(c.t)}</button>`).join("")}</div>`;
   view.querySelectorAll(".toc button").forEach(b => b.onclick = () => go("lernen", +b.dataset.i));
+  $("#pcard").onclick = e => { e.preventDefault(); e.stopPropagation(); pdfSheet(); };
   $("#updx") && ($("#updx").onclick = () => { store.set("upd","2026-11-04"); $("#upd").remove(); });
 }
 function renderChapter(i){
@@ -220,6 +221,33 @@ function renderChapter(i){
   view.querySelectorAll(".fig img").forEach(img => { img.onclick = () => zoom(img.src); img.onerror = () => { const f = img.closest("figure"); if (f) f.innerHTML = `<div class="missing">Bild „${esc(img.alt)}“ wird aus dem Internet geladen und ist hier nicht sichtbar. In der öffentlichen Version (crossfire664-commits.github.io/skipper-b) erscheint es.</div>`; }; });
   view.querySelectorAll("span[data-pic]").forEach(s => s.innerHTML = pic(s.dataset.pic.replace("~","|")));
   if (c.n !== "00a") markTerms(view);
+}
+function pdfSheet(){
+  document.querySelector(".sheet")?.remove();
+  const url = new URL("Skipper-B-Druckblaetter.pdf", location.href).href;
+  const s = document.createElement("div"); s.className = "sheet"; s.setAttribute("role","dialog");
+  s.innerHTML = `<p class="lbl">Druckblätter · PDF · 30 Seiten</p><div class="st">Wie möchtest du sie öffnen?</div>
+   <div class="pdfo">
+    <a class="btn" href="https://docs.google.com/viewer?url=${encodeURIComponent(url)}" target="_blank" rel="noopener">📖 Am Handy ansehen</a>
+    <button class="btn" id="pshare">📤 Teilen oder drucken</button>
+    <a class="btn ghost" href="${url}" download="Skipper-B-Druckblaetter.pdf">⬇️ Herunterladen</a>
+    <a class="btn ghost" href="${url}" target="_blank" rel="noopener">🌐 Direkt öffnen</a>
+   </div>
+   <p class="mdesc" style="margin-top:10px">Zum Drucken: <b>Teilen oder drucken</b> antippen und dort <b>Drucken</b> wählen – oder herunterladen und in der PDF-App drucken.</p>
+   <button class="btn ghost" id="pclose" style="width:100%">Schließen</button>`;
+  document.body.appendChild(s);
+  s.querySelector("#pclose").onclick = () => s.remove();
+  s.querySelector("#pshare").onclick = async () => {
+    const b = s.querySelector("#pshare"); b.textContent = "⏳ Wird geladen …";
+    try {
+      const blob = await fetch(url).then(r => r.blob());
+      const f = new File([blob], "Skipper-B-Druckblaetter.pdf", {type:"application/pdf"});
+      if (navigator.canShare && navigator.canShare({files:[f]})) await navigator.share({files:[f], title:"Skipper B – Druckblätter"});
+      else if (navigator.share) await navigator.share({url, title:"Skipper B – Druckblätter"});
+      else { const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = f.name; a.click(); }
+    } catch(e) {}
+    b.textContent = "📤 Teilen oder drucken";
+  };
 }
 function zoom(src){
   const z = document.createElement("div"); z.className = "zoom";
