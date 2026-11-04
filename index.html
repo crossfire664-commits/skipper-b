@@ -226,7 +226,7 @@ function pdfSheet(){
   document.querySelector(".sheet")?.remove();
   const url = new URL("Skipper-B-Druckblaetter.pdf", location.href).href;
   const s = document.createElement("div"); s.className = "sheet"; s.setAttribute("role","dialog");
-  s.innerHTML = `<p class="lbl">Druckblätter · PDF · 30 Seiten</p><div class="st">Wie möchtest du sie öffnen?</div>
+  s.innerHTML = `<p class="lbl">Druckblätter · PDF · 36 Seiten</p><div class="st">Wie möchtest du sie öffnen?</div>
    <div class="pdfo">
     <a class="btn" href="https://docs.google.com/viewer?url=${encodeURIComponent(url)}" target="_blank" rel="noopener">📖 Am Handy ansehen</a>
     <button class="btn" id="pshare">📤 Teilen oder drucken</button>
