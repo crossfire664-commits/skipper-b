@@ -229,24 +229,25 @@ function pdfSheet(){
   s.innerHTML = `<p class="lbl">Druckblätter · PDF · 36 Seiten</p><div class="st">Wie möchtest du sie öffnen?</div>
    <div class="pdfo">
     <a class="btn" href="https://docs.google.com/viewer?url=${encodeURIComponent(url)}" target="_blank" rel="noopener">📖 Am Handy ansehen</a>
-    <button class="btn" id="pshare">📤 Teilen oder drucken</button>
+    <button class="btn" id="pshare" disabled>⏳ PDF wird vorbereitet …</button>
     <a class="btn ghost" href="${url}" download="Skipper-B-Druckblaetter.pdf">⬇️ Herunterladen</a>
-    <a class="btn ghost" href="${url}" target="_blank" rel="noopener">🌐 Direkt öffnen</a>
    </div>
-   <p class="mdesc" style="margin-top:10px">Zum Drucken: <b>Teilen oder drucken</b> antippen und dort <b>Drucken</b> wählen – oder herunterladen und in der PDF-App drucken.</p>
+   <p class="mdesc" id="pmsg" style="margin-top:10px"><b>Drucken:</b> „Teilen oder drucken“ antippen und im Menü <b>Drucken</b> wählen. Steht dort kein Drucken: <b>Herunterladen</b>, dann die Datei in den Downloads öffnen und im Menü ⋮ auf <b>Drucken</b>.</p>
    <button class="btn ghost" id="pclose" style="width:100%">Schließen</button>`;
   document.body.appendChild(s);
   s.querySelector("#pclose").onclick = () => s.remove();
-  s.querySelector("#pshare").onclick = async () => {
-    const b = s.querySelector("#pshare"); b.textContent = "⏳ Wird geladen …";
-    try {
-      const blob = await fetch(url).then(r => r.blob());
-      const f = new File([blob], "Skipper-B-Druckblaetter.pdf", {type:"application/pdf"});
-      if (navigator.canShare && navigator.canShare({files:[f]})) await navigator.share({files:[f], title:"Skipper B – Druckblätter"});
-      else if (navigator.share) await navigator.share({url, title:"Skipper B – Druckblätter"});
-      else { const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = f.name; a.click(); }
-    } catch(e) {}
-    b.textContent = "📤 Teilen oder drucken";
+  const b = s.querySelector("#pshare"), msg = s.querySelector("#pmsg");
+  let file = null;
+  fetch(url).then(r => r.blob()).then(blob => {
+    file = new File([blob], "Skipper-B-Druckblaetter.pdf", {type:"application/pdf"});
+    b.disabled = false; b.textContent = "📤 Teilen oder drucken";
+  }).catch(() => { b.disabled = false; b.textContent = "📤 Link teilen"; });
+  b.onclick = () => {
+    const ok = file && navigator.canShare && navigator.canShare({files:[file]});
+    const p = ok ? navigator.share({files:[file], title:"Skipper B – Druckblätter"})
+            : navigator.share ? navigator.share({url, title:"Skipper B – Druckblätter"}) : null;
+    if (!p) { msg.innerHTML = "Teilen geht in diesem Browser nicht. Bitte <b>Herunterladen</b> und die Datei aus den Downloads öffnen."; return; }
+    p.catch(e => { if (e && e.name !== "AbortError") msg.innerHTML = "Teilen hat nicht geklappt. Bitte <b>Herunterladen</b>, dann in den Downloads öffnen und dort drucken oder teilen."; });
   };
 }
 function zoom(src){
